@@ -1,0 +1,46 @@
+- name: Create student user
+  tags: [users]
+  ansible.builtin.user:
+    append: yes
+    create_home: yes
+    name: student
+    password: "" #No password for students
+    shell: /usr/bin/zsh
+    uid: 2001
+
+- name: Update bocal user
+  tags: [users]
+  ansible.builtin.user:
+    shell: /usr/bin/zsh
+    update_password: always
+    name: bocal 
+    password: "{{ bocal_passwd }}"
+
+- name: Install Oh-My-Zsh for bocal
+  ignore_errors: true
+  tags: [users]
+  become_user: bocal
+  ansible.builtin.shell:
+    cmd: echo exit | sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+- name: Change oh-my-zsh theme for bocal
+  tags: [users]
+  ansible.builtin.lineinfile:
+    path: /home/bocal/.zshrc
+    state: present
+    regexp: "^ZSH_THEME="
+    line: "ZSH_THEME=risto"
+    insertafter: EOF
+
+- name: Create z01profile
+  tags: [users]
+  ansible.builtin.shell:
+    cmd: touch /etc/z01profile
+
+- name: Add z01profile to global profile, bashrc and zshrc
+  tags: [users]
+  loop: [/etc/bash.bashrc, /etc/zsh/zshenv, /etc/profile]
+  ansible.builtin.lineinfile:
+    line: "source /etc/z01profile"
+    path: "{{ item }}"
+    state: present

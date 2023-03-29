@@ -1,0 +1,66 @@
+---
+# defaults file for common
+hostname: Zone01-Campus
+
+# must be encrypted: echo -n PASSWORD_HERE | makepasswd --crypt-md5 --clearfrom -
+bocal_passwd: 
+
+services_disable:
+  - apt-daily-upgrade.timer
+  - apt-daily.timer
+  - console-setup.service
+  - e2scrub_reap.service
+  - keyboard-setup.service
+  - motd-news.timer
+  - remote-fs.target
+
+services_mask:
+  - grub-common.service
+  - plymouth-quit-wait.service
+  - sleep.target
+  - suspend.target
+  - hibernate.target
+  - hybrid-sleep.target
+
+apt_install_pkgs:
+  - firefox
+  - chromium-browser
+  - curl 
+  - git
+  - gcc
+  - zsh
+  - ufw
+  - libgtk2.0-0
+  - jq
+
+snap_install_pkgs:
+  - discord
+
+apt_purge_pkgs:
+  - apparmor
+  - apport
+  - bind9
+  - bolt
+  - cups*
+  - fprintd
+  - friendly-recovery
+  - gnome-initial-setup
+  - gnome-online-accounts
+  - gnome-power-manager
+  - gnome-software
+  - gnome-software-common
+  - memtest86+
+  - orca
+  - popularity-contest
+  - python3-update-manager
+  - secureboot-db
+  - speech-dispatcher*
+  - spice-vdagent
+  - ubuntu-report
+  - unattended-upgrades
+  - update-inetd
+  - update-manager-core
+  - update-notifier
+  - update-notifier-common
+  - whoopsie
+  - xdg-desktop-portal

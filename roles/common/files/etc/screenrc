@@ -1,0 +1,4 @@
+startup_message off
+shell -$SHELL
+defscrollback 100000
+bind l eval clear "scrollback 0" "scrollback 100000"

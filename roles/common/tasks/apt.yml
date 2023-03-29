@@ -1,0 +1,28 @@
+- name: Update apt
+  tags: [apt]
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Upgrade apt
+  tags: [apt]
+  ansible.builtin.apt:
+    upgrade: yes
+
+- name: Install apt pkgs
+  tags: [apt]
+  loop: "{{ apt_install_pkgs }}"
+  ansible.builtin.apt:
+    name: "{{ item }}"
+
+- name: Install extra apt pkgs
+  tags: [apt]
+  loop: "{{ apt_extra_pkgs }}"
+  ansible.builtin.apt:
+    name: "{{ item }}"
+
+- name: Purge unused apt pkgs
+  loop: "{{ apt_purge_pkgs }}"
+  ignore_errors: true
+  ansible.builtin.apt:
+      name: "{{ item }}"
+      purge: yes

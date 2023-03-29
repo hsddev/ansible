@@ -1,0 +1,19 @@
+- name: Stop unnatended-upgrades.service
+  tags: [systemd]
+  ansible.builtin.systemd:
+    name: unattended-upgrades
+    state: stopped
+
+- name: Disable unused services
+  tags: [systemd]
+  loop: "{{ services_disable }}"
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: no
+
+- name: Mask services
+  tags: [systemd]
+  loop: "{{ services_mask }}"
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    masked: yes

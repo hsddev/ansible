@@ -1,0 +1,15 @@
+- name: Rsync /etc
+  tags: [copy, etc]
+  become: yes
+  ansible.posix.synchronize:
+    src: etc/
+    dest: /etc
+    owner: false
+
+- name: Rsync /usr
+  tags: [copy, usr]
+  become: yes
+  ansible.posix.synchronize:
+    src: usr/
+    dest: /usr
+    owner: false

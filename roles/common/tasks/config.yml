@@ -1,0 +1,72 @@
+- name: Setup quick logout (KillUserProcess=yes)
+  tags: [config]
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/logind.conf
+    state: present
+    regexp: "^KillUserProcesses="
+    line: KillUserProcesses=yes
+    insertafter: EOF
+
+- name: Disable GTK hidden scroll bars
+  tags: [config]
+  ansible.builtin.lineinfile:
+    path: /etc/environment
+    state: present
+    regexp: "^GTK_OVERLAY_SCROLLING="
+    line: GTK_OVERLAY_SCROLLING=0
+    insertafter: EOF
+
+- name: Disable suspend & hibernate 
+  tags: [config]
+  block:
+  # Masking suspend.target cause the system to spam Gb of logs at /var/log/auth.log, this fixes the issue
+    - name: HandleSuspendKey=ignore
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/logind.conf
+        state: present
+        line: HandleSuspendKey=ignore
+
+    - name: HandleHibernateKey=ignore
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/logind.conf
+        state: present
+        line: HandleHibernateKey=ignore
+    
+    - name: HandleLidSwitch=ignore
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/logind.conf
+        state: present
+        line: HandleLidSwitch=ignore
+
+    - name: HandleLidSwitchExternalPower=ignore
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/logind.conf
+        state: present
+        line: HandleLidSwitchExternalPower=ignore
+    
+    - name: HandleLidSwitchDocked=ignore
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/logind.conf
+        state: present
+        line: HandleLidSwitchDocked=ignore
+
+- name: Update initramfs
+  tags: [config]
+  ansible.builtin.shell:
+    cmd: update-initramfs -u
+
+- name: Update grub
+  tags: [config]
+  ansible.builtin.shell:
+    cmd: update-grub
+
+- name: Install additional drivers
+  tags: [config]
+  ansible.builtin.shell:
+    cmd: ubuntu-drivers install
+
+- name: Create /var/log/z01
+  tags: [config]
+  ansible.builtin.file:
+    path: /var/log/z01
+    state: directory

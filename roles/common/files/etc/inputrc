@@ -1,0 +1,3 @@
+set completion-ignore-case
+set show-all-if-ambiguous On
+set show-all-if-unmodified On
