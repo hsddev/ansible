@@ -1,0 +1,59 @@
+---
+# tasks file for golang
+- name: Check Golang version
+  tags: [golang]
+  register: golang_version
+  ignore_errors: true
+  ansible.builtin.shell:
+    cmd: sudo -iu student go version 
+
+- name: Install Golang-Go 
+  tags: [golang]
+  when: golang_version.rc != 0
+  block:
+    - name: Download go-1.19 
+      ansible.builtin.shell:
+        cmd: wget -O /tmp/go1.19.linux-amd64.tar.gz https://go.dev/dl/go1.19.linux-amd64.tar.gz 
+        
+    - name: Extract go files
+      ansible.builtin.shell:
+        cmd: sudo tar -xvf /tmp/go1.19.linux-amd64.tar.gz   
+        
+    - name: Copy go to /usr/local
+      become: yes
+      ansible.builtin.shell:
+        cmd: cp -r go /usr/local
+
+    - name: Check if /usr/local/go/bin is in path
+      ansible.builtin.shell:
+        cmd: grep -c 'PATH=$PATH:/usr/local/go/bin:~/go/bin' /etc/z01profile
+      register: grep_gopath
+      failed_when: grep_gopath.rc >= 2
+    
+    - name: Add Golang to path
+      when: grep_gopath.stdout == "0"
+      ansible.builtin.lineinfile:
+        line: 'PATH=$PATH:/usr/local/go/bin:~/go/bin'
+        path: /etc/z01profile
+        state: present
+    
+    - name: Check if GOROOT is set
+      ansible.builtin.shell:
+        cmd: grep -c 'GOROOT' /etc/z01profile
+      register: grep_goroot
+      failed_when: grep_goroot.rc >= 2
+    
+    - name: Set GOROOT
+      when: grep_goroot.stdout == "0"
+      ansible.builtin.lineinfile:
+        line: 'GOROOT=/usr/local/go'
+        path: /etc/z01profile
+        state: present
+
+- name: Install required Go dependencies
+  loop: "{{ go_pkgs }}"
+  become: true
+  become_user: student
+  ansible.builtin.shell:
+    cmd: go install -v {{item}}
+    executable: /usr/bin/zsh

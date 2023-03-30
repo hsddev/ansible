@@ -1,0 +1,17 @@
+galaxy_info:
+  author: Pedro Mora <Drop>
+  description: Install golang and go pkgs, set up student dev environment for go. 
+  company: 01Talent
+
+  license: MIT
+  
+  min_ansible_version: 2.1
+
+  platforms:
+   - name: Ubuntu 
+     versions:
+     - 22.04
+
+  galaxy_tags: [golang, 01Talent]
+
+dependencies: [common]
