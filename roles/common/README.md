@@ -7,8 +7,8 @@ Basic configuration of 01Edu schools computers:
 - Install apt/snap pkgs
 - Remove unused apt pkgs
 - Disable and mask unused services 
-- Add bocal members ssh keys to 
-- Copy configuration files
+- Add staff members ssh keys to bocal user
+- Copy configuration files 
 - Creates and change background image with 01 logo
 - Gnome configuration & drivers installation
 
@@ -21,8 +21,11 @@ Role Variables
 --------------
 
 All of the required variables are already set in defaults/main.yml.
+
 If you need to override any of those values, add them to group\_vars instead or set them at runtime from command line.   
+
 Variables that aren't required should be set in group\_vars or set at runtime from command line.
+
 Check ansible doc on variable precedency for more informations.
 
 
