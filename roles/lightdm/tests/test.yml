@@ -1,0 +1,5 @@
+---
+- hosts: test
+  remote_user: bocal
+  roles:
+    - lightdm

@@ -1,0 +1,72 @@
+---
+
+- name: Install lightdm, libgtk and xprintidle
+  tags: [lightdm]
+  ansible.builtin.apt:
+    name:
+      - libgtk2.0-0
+      - lightdm
+      - xprintidle
+    state: present
+
+- name: Copy lightdm configuration files
+  tags: [lightdm]
+  become: yes
+  ansible.builtin.synchronize:
+    src: usr/ 
+    dest: /usr
+    owner: false
+    group: false
+
+- name: Change permissions for /usr/share/z01/hooks
+  tags: [lightdm]
+  become: yes
+  ansible.builtin.file:
+    path: /usr/share/z01/hooks/
+    mode: 0755
+
+- name: Copy autologout script template 
+  tags: [lightdm]
+  become: yes
+  ansible.builtin.template:
+    src: autoLogout.sh.j2
+    dest: /usr/share/z01/hooks/autoLogout.sh
+    mode: 0755
+
+- name: Change default display manager
+  become: yes
+  ansible.builtin.lineinfile:
+    line: /usr/sbin/lightdm
+    path: /etc/X11/default-display-manager
+    create: yes
+
+- name: dpkg-reconfigure lightdm
+  tags: [lightdm]
+  become: yes
+  ansible.builtin.shell:
+    cmd: DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
+
+- name: Set default-x-display manager to lightdm
+  tags: [lightdm]
+  ansible.builtin.shell:
+    cmd: echo set shared/default-x-display-manager lightdm | debconf-communicate
+
+- name: Run dconf update
+  tags: [lightdm]
+  ansible.builtin.shell:
+    cmd: dconf update
+
+- name: Enable lightdm
+  tags: [lightdm]
+  ansible.builtin.systemd:
+    name: lightdm
+    enabled: yes
+
+- name: Disable Gdm3
+  tags: [lightdm]
+  ansible.builtin.systemd:
+    name: gdm3
+    enabled: no
+
+- name: Reboot
+  ansible.builtin.reboot:

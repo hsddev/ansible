@@ -1,0 +1,5 @@
+---
+# defaults file for lightdm
+
+# student should be logged out automatically after 30 minutes (1800 seconds)
+student_autologout_time: 1800

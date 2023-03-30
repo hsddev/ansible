@@ -1,0 +1,16 @@
+#!/bin/bash
+set -uex
+
+# Number of seconds before the student gets logged out
+IDLE_TIME={{ student_autologout_time  }} 
+
+while true; do
+	IDLE=$(DISPLAY=:0 xprintidle)
+	if [ $IDLE -ge $((IDLE_TIME*1000)) ]; then
+		echo "no activity for $((IDLE/1000)), login out user '$USER'"
+		loginctl terminate-user $USER
+		exit	
+	fi
+	# Sleep 5 seconds to avoid spamming the cpu
+	sleep 5
+done
