@@ -1,0 +1,12 @@
+---
+- name: Get partition ID
+  tags: [partitions]
+  ansible.builtin.shell:
+    cmd: "lsblk -o label,MAJ:MIN | grep {{ label }} | sed -r 's/ +/ /g' |  cut -d' ' -f2 | cut -d':' -f2"
+  register: part_id
+
+- name: Set partition name
+  tags: [partitions]
+  become: yes
+  ansible.builtin.shell:
+    cmd: "sgdisk -g --change-name {{ part_id.stdout }}:{{ label }} {{ disk_name.stdout }}"

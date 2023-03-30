@@ -1,0 +1,35 @@
+---
+# tasks file for partitions
+- name: Get disk name
+  tags: [partitions]
+  ansible.builtin.shell: 
+    cmd: lsblk -o tran,kname,hotplug,type,fstype -pr | grep '0 disk' | cut -d ' ' -f2 | sort | head -n1
+  register: disk_name
+
+- name: Erase remove-me partition if it exists
+  tags: [partitions]
+  block:
+    - name: Check if `remove-me` partition exists 
+      ansible.builtin.shell:
+        cmd: "lsblk {{ disk_name.stdout }} -o label,MAJ:MIN | grep 'remove-me' | cut -d ':' -f2" 
+      register: rm_part_id
+
+    - name: Erase remove-me
+      when: rm_part_id.stdout | length > 0
+      become: yes
+      ansible.builtin.shell:
+        cmd: "sgdisk -d {{ rm_part_id.stdout  }} {{ disk_name.stdout }}"
+      ignore_errors: true
+
+- name: Rename partitions
+  tags: [partitions]
+  loop: [01-fs-root, 01-tmp-home, 01-docker, 01-logs]
+  loop_control: 
+    loop_var: label
+  include_tasks: rename-parts.yml
+
+- name: Notify OS of partition change 
+  tags: [partitions]
+  become: yes
+  ansible.builtin.shell:
+    cmd: partprobe
