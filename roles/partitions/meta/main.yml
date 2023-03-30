@@ -1,19 +1,8 @@
 galaxy_info:
-  author: Pedro Mora Drop
+  author: Pedro Mora <Drop>
   description: "Set partitions labels and removes the 'remove-me' partition created by d-i from automated install"
-  company: 01Edu
+  company: 01Talent
 
-  # If the issue tracker for your role is not on github, uncomment the
-  # next line and provide a value
-  # issue_tracker_url: http://example.com/issue/tracker
-
-  # Choose a valid license ID from https://spdx.org - some suggested licenses:
-  # - BSD-3-Clause (default)
-  # - MIT
-  # - GPL-2.0-or-later
-  # - GPL-3.0-only
-  # - Apache-2.0
-  # - CC-BY-4.0
   license: MIT
   min_ansible_version: 2.1
 
@@ -22,6 +11,6 @@ galaxy_info:
      versions:
      - 22.04
 
-  galaxy_tags: [postinstall, 01-edu]
+  galaxy_tags: [postinstall, 01Talent]
 
 dependencies: []
