@@ -20,16 +20,22 @@ Should be ran after using 01Edu custom ubuntu image.
 Role Variables
 --------------
 
-All of the variables that aren't required are already set in defaults/main.yml. If you need to override any of those value, use group_vars instead or change them from command line   
+All of the required variables are already set in defaults/main.yml.
+If you need to override any of those values, add them to group\_vars instead or set them at runtime from command line.   
+Variables that aren't required should be set in group\_vars or set at runtime from command line.
+Check ansible doc on variable precedency for more informations.
 
-| Variable                | Required | Default | Choices                   | Comments                                 |
-|-------------------------|----------|---------|---------------------------|------------------------------------------|
-| bocal_passwd            | yes      | empty   | string                    | password for `bocal` user                |
-| services_disable        | no       |         | array of strings          | list of services to be disabled          |
-| services_mask           | no       |         | array of strings          | list of services to be masked            |
-| apt_install_pkgs        | no       |         | array of strings          | default pkgs to be installed from apt    |
-| snap_install_pkgs       | no       |         | array of strings          | default pkgs to be installed from snap   |
-| apt_purge_pkgs          | no       |         | array of strings          | default pkgs to be removed from apt      |
+
+| Variable                | Required | Default                      | Choices                   | Comments                                 |
+|-------------------------|----------|------------------------------|---------------------------|------------------------------------------|
+| bocal\_passwd           | no       | empty                        | string                    | password for bocal user                  |
+| apt\_extra\_pkgs        | no       | empty                        | string                    | extra pkgs to be installed from apt      |
+| extra\_ssh\_keys        | no       | empty                        | string                    | bocal members ssh public keys            |
+| services\_disable       | yes      | see defaults/main.yml        | array of strings          | list of services to be disabled          |
+| services\_mask          | yes      | see defaults/main.yml        | array of strings          | list of services to be masked            |
+| apt\_install\_pkgs      | yes      | see defaults/main.yml        | array of strings          | default pkgs to be installed from apt    |
+| snap\_install\_pkgs     | yes      | see defaults/main.yml        | array of strings          | default pkgs to be installed from snap   |
+| apt\_purge\_pkgs        | yes      | see defaults/main.yml        | array of strings          | default pkgs to be removed from apt      |
 
 
 Example Playbook
