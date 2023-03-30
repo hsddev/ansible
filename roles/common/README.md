@@ -26,7 +26,7 @@ If you need to override any of those values, add them to group\_vars instead or 
 
 Variables that aren't required should be set in group\_vars or set at runtime from command line.
 
-Check ansible doc on variable precedency for more informations.
+Check ansible doc on variable precedence for more informations.
 
 
 | Variable                | Required | Default                      | Choices                   | Comments                                 |
