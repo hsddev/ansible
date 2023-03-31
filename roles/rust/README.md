@@ -13,7 +13,8 @@ Example Playbook
 ----------------
 
 ```yaml
-    - hosts: all 
+    - hosts: all
+      remote_user: bocal
       roles:
          - common
          - rust
