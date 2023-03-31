@@ -43,12 +43,12 @@ Check ansible doc on variable precedence for more informations.
 
 Example Playbook
 ----------------
-
+```yaml
     - hosts: all
       remote_user: bocal
       roles:
          - common
-
+```
 License
 -------
 
