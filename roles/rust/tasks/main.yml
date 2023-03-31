@@ -8,7 +8,7 @@
 
 - name: Source $HOME/.cargo/env in z01profile
   tags: [rust]
-  become_user: student
+  become: yes
   ansible.builtin.lineinfile:
     path: /etc/z01profile
     line: source "$HOME/.cargo/env"
