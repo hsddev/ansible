@@ -1,0 +1,13 @@
+---
+# tasks file for nodejs
+- name: Install n
+  tags: [nodejs]
+  ansible.builtin.shell:
+    cmd: |
+        curl -fsSL https://raw.githubusercontent.com/tj/n/master/bin/n | bash -s lts
+        npm install -g n 
+
+- name: Install node lts
+  tags: [nodejs]
+  ansible.builtin.shell:
+    cmd: n latest
