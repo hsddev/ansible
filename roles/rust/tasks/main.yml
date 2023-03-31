@@ -4,7 +4,7 @@
   tags: [rust]
   become_user: student
   ansible.builtin.shell:
-    cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh - s -- -y
+    cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s  -- -y
 
 - name: Source $HOME/.cargo/env in z01profile
   tags: [rust]
