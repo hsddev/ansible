@@ -27,12 +27,12 @@ Check ansible doc on variable precedence for more informations.
 
 Example Playbook
 ----------------
-
-    - hosts: servers
+```yaml
+    - hosts: all
       roles:
          - common
          - golang
-
+```
 License
 -------
 
