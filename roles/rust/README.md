@@ -1,4 +1,4 @@
-Role Name
+rust
 =========
 
 Install Rustup on students computers
@@ -13,7 +13,7 @@ Example Playbook
 ----------------
 
 ```yaml
-    - hosts: servers
+    - hosts: all 
       roles:
          - common
          - rust
