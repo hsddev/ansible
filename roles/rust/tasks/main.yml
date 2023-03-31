@@ -1,0 +1,14 @@
+---
+# tasks file for rust
+- name: Install rustup
+  tags: [rust]
+  become_user: student
+  ansible.builtin.shell:
+    cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh - s -- -y
+
+- name: Source $HOME/.cargo/env in z01profile
+  tags: [rust]
+  become_user: student
+  ansible.builtin.lineinfile:
+    path: /etc/z01profile
+    line: source "$HOME/.cargo/env"
