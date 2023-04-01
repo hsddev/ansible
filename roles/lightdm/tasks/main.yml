@@ -37,6 +37,7 @@
   become: yes
   ansible.builtin.lineinfile:
     line: /usr/sbin/lightdm
+    regexp: .*gdm3
     path: /etc/X11/default-display-manager
     create: yes
 
