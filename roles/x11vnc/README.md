@@ -34,3 +34,5 @@ MIT
 
 Author Information
 ------------------
+
+Drop - pedro.mora@01talent.com
