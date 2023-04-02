@@ -6,6 +6,12 @@
   ansible.builtin.shell:
     cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s  -- -y
 
+- name: Install rustup for bocal
+  tags: [rust]
+  become_user: bocal
+  ansible.builtin.shell:
+    cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s  -- -y
+
 - name: Source $HOME/.cargo/env in z01profile
   tags: [rust]
   become: yes
