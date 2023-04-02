@@ -1,8 +1,8 @@
 #!/bin/bash
-set -uex
+set +uex
 
 # Number of seconds before the student gets logged out
-IDLE_TIME={{ student_autologout_time  }} 
+IDLE_TIME={{ student_autologout_time }} 
 
 while true; do
 	IDLE=$(DISPLAY=:0 xprintidle)

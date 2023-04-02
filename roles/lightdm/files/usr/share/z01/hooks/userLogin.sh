@@ -35,9 +35,14 @@ else
 	 #Fails if no local partition is found
 	test -e /dev/disk/by-partlabel/01-tmp-home
 
+	# Unmount & reset student home in case the logout wasn't "clean" (unexpected shutdown, etc) 
+	# and didn't trigger the logout script
+	umount -l /dev/disk/by-partlabel/01-tmp-home ||:
+	umount -l /home/student ||:
+	systemd-run /usr/local/bin/reset_home
+
 	 #We don't care about data consistency since the partition is temporary so disable journaling
 	/sbin/mke2fs -t ext4 -O ^has_journal -F /dev/disk/by-partlabel/01-tmp-home
-	
 	mount -o noatime,nobarrier /dev/disk/by-partlabel/01-tmp-home /mnt
 fi
 
@@ -45,10 +50,6 @@ fi
 user_path=/mnt/.01/user
 temp_path=/mnt/.01/tmp
 
-# Unmount student home if needed
-umount /home/student ||:
-
-systemd-run /usr/local/bin/reset_home
 
 mkdir -p "$user_path" "$temp_path"
 chown -R "$USER":"$USER" "$user_path" "$temp_path"
@@ -59,4 +60,4 @@ mkdir -p /home/student/.cache
 mount -t tmpfs -o size=2G tmpfs /home/student/.cache
 
 # Run autologout script in background
-/usr/share/z01/hooks/autoLogout.sh &
+bash /usr/share/z01/hooks/autoLogout.sh & >/dev/null 2>&1 1>&-

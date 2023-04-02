@@ -22,4 +22,5 @@ fi
 
 passwd -d "$USER" ||:
 
-systemd-run /usr/local/bin/reset_home
+umount -l /home/student ||:
+umount -l /dev/disks/by-partlabel/01-tmp-home ||:
