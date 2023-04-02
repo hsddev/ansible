@@ -1,0 +1,37 @@
+---
+# tasks file for x11vnc
+- name: Update apt
+  tags: [x11vnc]
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install x11vnc
+  tags: [x11vnc]
+  ansible.builtin.apt:
+    name: x11vnc
+
+- name: Copy x11vnc.service template
+  tags: [x11vnc]
+  become: yes
+  ansible.builtin.template:
+    src: x11vnc.service.j2
+    dest: /lib/systemd/system/x11vnc.service
+    mode: 0744
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reexec: true
+
+- name: Enable x11vnc.service
+  tags: [x11vnc]
+  become: yes
+  ansible.builtin.systemd:
+    name: x11vnc.service
+    enabled: true
+
+- name: Start x11vnc.service
+  tags: [x11vnc]
+  become: yes
+  ansible.builtin.systemd:
+    name: x11vnc.service
+    state: started 
