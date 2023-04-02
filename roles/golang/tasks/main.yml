@@ -52,7 +52,6 @@
 
 - name: Install required Go dependencies
   loop: "{{ go_pkgs }}"
-  become: true
   become_user: student
   ansible.builtin.shell:
     cmd: go install -v {{item}}
