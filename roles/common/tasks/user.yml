@@ -1,7 +1,6 @@
 - name: Create student user
   tags: [users]
   ansible.builtin.user:
-    append: yes
     create_home: yes
     name: student
     password: "" #No password for students
