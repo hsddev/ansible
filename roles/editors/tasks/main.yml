@@ -1,0 +1,100 @@
+---
+# tasks file for editors
+- name: Copy editors config files
+  become: yes
+  ansible.builtin.synchronize:
+    src: home/student
+    dest: /home/student
+    owner: false
+
+- name: Sublime Text & Merge
+  block:
+    - name: Add Sublime Text repository to apt
+      tags: [editors, sublime]
+      ansible.builtin.shell:
+        cmd: wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
+    
+    - name: Select stable channel
+      tags: [editors, sublime]
+      ansible.builtin.lineinfile:
+        path: /etc/apt/sources.list.d/sublime-text.list
+        line: deb https://download.sublimetext.com/ apt/stable/
+        state: present
+        create: yes
+    
+    - name: Update apt
+      tags: [editors, sublime]
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+    
+    - name: Install Sublime Text
+      tags: [editors, sublime]
+      ansible.builtin.apt:
+        name: sublime-text
+        state: present
+        install-recommends: no
+    
+    - name: Install Sublime Merge 
+      tags: [editors, sublime]
+      ansible.builtin.apt:
+        name: sublime-merge
+        state: present
+        install-recommends: no
+
+- name: Vs Code 
+  tags: [editors, vscode]
+  block:
+    - name: Download microsoft signing key
+      ansible.builtin.shell:
+        cmd: wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/packages.microsoft.gpg
+
+    - name: Add microsoft signing key
+      ansible.builtin.shell:
+        cmd: sudo install -D -o root -g root -m 644 /tmp/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+         
+    - name: Add microsoft repository to apt list
+      ansible.builtin.lineinfile:
+        path: /etc/apt/sources.list.d/vscode.list
+        state: present
+        create: yes
+        line: deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main
+
+    - name: Update apt
+      tags: [editors, sublime]
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install Visual Studio Code
+      ansible.builtin.apt:
+        name: code 
+        state: present
+    
+    - name: Install Visual Studio Extensions
+      tags: [editors, vscode]
+      become_user: student
+      ansible.builtin.shell:
+        cmd: code --install-extension golang.go
+    
+- name: Vim
+  tags: [editors, vim]
+  block:
+    - name: Install Vim
+      ansible.builtin.apt:
+        name: vim
+        state: present
+
+    - name: Get Vim-Go
+      tags: [editors, vim]
+      ignore_errors: true
+      become_user: student
+      ansible.builtin.shell:
+        cmd: git clone https://github.com/fatih/vim-go.git /home/student/.vim/pack/plugins/start/vim-go
+    
+    - name: Install Vim-Go dependencies
+      tags: [editors, vim]
+      ignore_errors: true
+      become_user: student
+      ansible.builtin.shell:
+        cmd: printf ':GoInstallBinaries\n:q\n' | vim -e
