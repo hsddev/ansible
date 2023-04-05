@@ -2,9 +2,6 @@
 # defaults file for common
 hostname: Zone01-Campus
 
-# must be encrypted: echo -n PASSWORD_HERE | makepasswd --crypt-md5 --clearfrom -
-bocal_passwd: 
-
 services_disable:
   - apt-daily-upgrade.timer
   - apt-daily.timer
