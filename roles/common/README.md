@@ -31,7 +31,7 @@ Check ansible doc on variable precedence for more informations.
 
 | Variable                | Required | Default                      | Choices                   | Comments                                 |
 |-------------------------|----------|------------------------------|---------------------------|------------------------------------------|
-| bocal\_passwd           | no       | empty                        | string                    | password for bocal user                  |
+| bocal\_passwd           | yes      | empty                        | string                    | password for bocal user                  |
 | apt\_extra\_pkgs        | no       | empty                        | string                    | extra pkgs to be installed from apt      |
 | extra\_ssh\_keys        | no       | empty                        | string                    | bocal members ssh public keys            |
 | services\_disable       | yes      | see defaults/main.yml        | array of strings          | list of services to be disabled          |
