@@ -12,8 +12,8 @@
     line: "{{ item }}"
     state: present
 
-- name: restart sshd
+- name: Restart sshd
   tags: [ssh]
   ansible.builtin.systemd:
-    state: restarted
+    state: reloaded 
     name: sshd
