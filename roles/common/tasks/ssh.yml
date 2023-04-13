@@ -1,3 +1,9 @@
+- name: Ensure sftp 
+  tags: [ssh]
+  ansible.builtin.lineinfile:
+    line: "Subsystem       sftp    /usr/lib/openssh/sftp-server"
+    path: /etc/ssh/sshd_config
+
 - name: Add bocal members public keys to the bocal user
   tags: [ssh]
   loop: "{{ extra_ssh_keys }}"
@@ -5,3 +11,9 @@
     path: /home/bocal/.ssh/authorized_keys
     line: "{{ item }}"
     state: present
+
+- name: restart sshd
+  tags: [ssh]
+  ansible.builtin.systemd:
+    state: restarted
+    name: sshd

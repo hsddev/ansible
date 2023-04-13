@@ -1,11 +1,11 @@
 ---
 
+- import_tasks: ssh.yml
 - import_tasks: apt.yml 
 - import_tasks: user.yml
 - import_tasks: copy.yml 
 - import_tasks: config.yml 
 - import_tasks: systemd.yml
-- import_tasks: ssh.yml
 - import_tasks: background.yml
 
 - name: Reboot
