@@ -1,0 +1,17 @@
+---
+- name: Zone01 cluster computers configuration
+  hosts: all
+  # Uncommenting next line will run tasks on hosts without waiting on each other (computer #1 doesn't wait for computer #2 to finish it's current task to run it's next task)
+  #strategy: free
+  remote_user: bocal
+  become: yes
+  roles:
+    - common 
+    - partitions
+    - lightdm
+    - golang
+    - nodejs
+    - rust
+    - editors
+    - docker 
+    - x11vnc
