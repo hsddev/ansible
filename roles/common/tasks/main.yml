@@ -7,7 +7,3 @@
 - import_tasks: config.yml 
 - import_tasks: systemd.yml
 - import_tasks: background.yml
-
-- name: Reboot
-  tags: [reboot]
-  ansible.builtin.reboot: 
