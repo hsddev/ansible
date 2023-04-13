@@ -70,3 +70,13 @@
   ansible.builtin.file:
     path: /var/log/z01
     state: directory
+
+- name: Set keyboard layout
+  tags: [config]
+  ansible.builtin.shell:
+    cmd: sudo localectl set-x11-keymap {{ keyboard_layout }}
+
+- name: Set timezone
+  tags: [config]
+  ansible.builtin.shell:
+    cmd: sudo timedatectl set-timezone {{ timezone }}
