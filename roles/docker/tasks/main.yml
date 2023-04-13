@@ -1,0 +1,84 @@
+---
+# tasks file for docker
+- name: Add docker gpg key
+  tags: [docker]
+  become: yes
+  ansible.builtin.shell:
+    cmd: sudo mkdir -m 0755 -p /etc/apt/keyrings; curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+- name: Setup docker repository
+  tags: [docker]
+  become: yes
+  ansible.builtin.shell:
+    cmd: echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+- name: Update apt cache
+  tags: [docker]
+  become: yes
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install docker
+  tags: [docker]
+  loop: [docker-ce, docker-ce-cli, containerd.io, docker-buildx-plugin, docker-compose-plugin]
+  become: yes
+  ansible.builtin.apt:
+    name: "{{ item }}"
+
+- name: Copy docker's ufw rules
+  tags: [docker]
+  become: yes
+  ansible.builtin.synchronize:
+    src: etc/ufw
+    dest: /etc/ufw
+
+- name: Restart ufw
+  tags: [docker]
+  become: yes
+  ansible.builtin.systemd:
+    name: ufw
+    state: restarted
+
+- name: Backup /var/lib/docker
+  tags: [docker]
+  become: yes
+  ansible.builtin.file:
+    name: /var/lib/docker
+    dest: /var/lib/docker_backup
+
+- name: Mount docker partition
+  become: yes
+  tags: [docker]
+  ansible.posix.mount:
+    path: /var/lib/docker
+    src: /dev/disk/by-partlabel/01-docker
+    fstype: ext4 
+    state: present
+    boot: true
+
+- name: Copy backup files to /var/lib/docker
+  become: yes
+  tags: [docker]
+  ansible.builtin.copy:
+    path: /var/lib/docker_backup
+    dest: /var/lib/docker
+
+- name: Remove backup files
+  become: yes
+  tags: [docker]
+  ansible.builtin.file:
+    path: /var/lib/docker_backup
+    state: absent
+
+- name: Ensure group docker exists
+  group:
+    name: docker 
+    state: present
+
+- name: Add docker group to users
+  tags: [docker]
+  loop: [bocal, student]
+  ansible.builtin.user:
+    name: "{{ item }}"
+    append: yes
+    groups: docker
