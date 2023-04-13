@@ -1,8 +1,9 @@
 - name: Ensure sftp 
   tags: [ssh]
   ansible.builtin.lineinfile:
-    line: "Subsystem       sftp    /usr/lib/openssh/sftp-server"
+    line: "Subsystem       sftp    internal-sftp"
     path: /etc/ssh/sshd_config
+    regexp: '^Subsystem'
 
 - name: Add bocal members public keys to the bocal user
   tags: [ssh]
