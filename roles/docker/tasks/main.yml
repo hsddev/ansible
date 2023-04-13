@@ -59,9 +59,8 @@
 - name: Copy backup files to /var/lib/docker
   become: yes
   tags: [docker]
-  ansible.builtin.copy:
-    path: /var/lib/docker_backup
-    dest: /var/lib/docker
+  ansible.builtin.shell:
+    cmd: cp /var/lib/docker_backup/*  /var/lib/docker
 
 - name: Remove backup files
   become: yes
