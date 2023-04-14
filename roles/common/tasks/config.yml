@@ -73,8 +73,10 @@
 
 - name: Set keyboard layout
   tags: [config]
+  become: yes
+  loop: [student, bocal]
   ansible.builtin.shell:
-    cmd: sudo localectl set-x11-keymap {{ keyboard_layout }}
+    cmd: "sudo -iu {{ item }}  localectl set-x11-keymap {{ keyboard_layout }}"
 
 - name: Set timezone
   tags: [config]
