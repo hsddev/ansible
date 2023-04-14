@@ -1,5 +1,22 @@
 ---
 # tasks file for docker
+- name: Create /var/lib/docker
+  become: yes
+  tags: [docker]
+  ansible.builtin.file:
+    path: /var/lib/docker
+    mode: 0710
+
+- name: Mount docker partition
+  become: yes
+  tags: [docker]
+  ansible.posix.mount:
+    path: /var/lib/docker
+    src: /dev/disk/by-partlabel/01-docker
+    fstype: ext4 
+    state: present
+    boot: true
+
 - name: Add docker gpg key
   tags: [docker]
   become: yes
@@ -38,36 +55,6 @@
   ansible.builtin.systemd:
     name: ufw
     state: restarted
-
-- name: Backup /var/lib/docker
-  tags: [docker]
-  become: yes
-  ansible.builtin.file:
-    name: /var/lib/docker
-    dest: /var/lib/docker_backup
-
-- name: Mount docker partition
-  become: yes
-  tags: [docker]
-  ansible.posix.mount:
-    path: /var/lib/docker
-    src: /dev/disk/by-partlabel/01-docker
-    fstype: ext4 
-    state: present
-    boot: true
-
-- name: Copy backup files to /var/lib/docker
-  become: yes
-  tags: [docker]
-  ansible.builtin.shell:
-    cmd: cp /var/lib/docker_backup/*  /var/lib/docker
-
-- name: Remove backup files
-  become: yes
-  tags: [docker]
-  ansible.builtin.file:
-    path: /var/lib/docker_backup
-    state: absent
 
 - name: Ensure group docker exists
   group:
