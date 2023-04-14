@@ -6,6 +6,7 @@
   ansible.builtin.file:
     path: /var/lib/docker
     mode: 0710
+    state: directory
 
 - name: Mount docker partition
   become: yes
