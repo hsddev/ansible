@@ -20,6 +20,12 @@
   ansible.builtin.apt:
     name: "{{ item }}"
 
+- name: Install extra snap pkgs
+  tags: [apt]
+  loop: "{{ snap_extra_pkgs }}"
+  ansible.builtin.apt:
+    name: "{{ item }}"
+
 - name: Purge unused apt pkgs
   loop: "{{ apt_purge_pkgs }}"
   ignore_errors: true
