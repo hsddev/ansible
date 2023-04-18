@@ -61,3 +61,6 @@ apt_purge_pkgs:
   - update-notifier-common
   - whoopsie
   - xdg-desktop-portal
+
+apt_extra_pkgs: []
+snap_extra_pkgs: []
