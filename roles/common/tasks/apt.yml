@@ -17,13 +17,13 @@
 - name: Install extra apt pkgs
   tags: [apt]
   loop: "{{ apt_extra_pkgs }}"
-  community.general.snap:
+  ansible.builtin.apt:
     name: "{{ item }}"
 
 - name: Install extra snap pkgs
   tags: [apt]
   loop: "{{ snap_extra_pkgs }}"
-  ansible.builtin.apt:
+  community.general.snap:
     name: "{{ item }}"
 
 - name: Purge unused apt pkgs
