@@ -1,0 +1,8 @@
+bocal_passwd: $6$gJSHPTOISlDGN6je$QAXhizzZQHQ6OoseMHk9X7qnxzP.fURoZ6WwY.UNzju0QdtDrhwDRM413/1aMuiSZImoRKp6wMe2RVohu5Xpg1
+keyboard_layout: gb
+timezone: Europe/London
+x11vnc_passwd: codeyourfuture
+extra_ssh_keys: []
+apt_extra_pkgs: []
+snap_extra_pkgs:
+    - postman

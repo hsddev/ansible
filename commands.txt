@@ -1,0 +1,36 @@
+ansible all -m reboot -i inventory -u bocal --become 
+ansible all -m reboot  -i inventory -u bocal --become -l test_computer
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHewB7W05/NPx4z3k/npejgzr1qgu1/5ZO95yN44Ztv4zSMLYLIkFpGjOLjshtu1kBiBo0+YXJHoMaobVb+uD/tf39iSP2xWfefMnbSiq3QsddJ1oa4fP40fwrZYgBqUtI1Hf1Y/vsdLAemeM+7S84aT6YQx61x6T9wUFefwqb7sRvdWipF5BUg6Z4HGsPUNATqI4I2cRaqg18Vz8WDUCQU6JOkgKG2KCF+dtr6E9TsH321OE/bx3vCXALJBEymxjwqB6OZldbsygEqhxuKJdOJaAcoN9azd7+7GrbSSV1B4BMRf0JG93vIaerpI9SNDxU5Sl5FInxQ2Nu7+fkK3W+6GyEYuqMVS7mR++2+ljI1EmGZ5ODPsG+39Pxh0bdBk9jeVNzrsuOkUu5sS1zh7z4ABTQXr3end4+UmZ9Eo+jC0GE3aY5Q0dkAf5dBzq3duVBKx3/5PmLlbR1tA06EF5kA0dH6smb1/GGIIAlGvLZ0E+znjVx1gikmDhIb6tfpK8= hsddev@HSDDEV-MacBook-Pro.local
+pc18-mac ansible_host=10.106.240.61
+pc6 ansible_host=10.106.240.27 nop
+
+pc5 ansible_host=10.106.240.25
+pc7 ansible_host=10.106.240.28
+
+pc8 ansible_host=10.106.240.31
+pc9 ansible_host=10.106.240.33
+pc10 ansible_host=10.106.240.40
+pc11 ansible_host=10.106.240.42
+pc12 ansible_host=10.106.240.48
+pc13 ansible_host=10.106.240.55
+pc14 ansible_host=10.106.240.57
+pc15 ansible_host=10.106.240.58
+pc16 ansible_host=10.106.240.59
+pc17 ansible_host=10.106.240.60
+pc19 ansible_host=10.106.240.64
+pc20 ansible_host=10.106.240.65
+pc21 ansible_host=10.106.240.70
+pc22 ansible_host=10.106.240.73
+pc23 ansible_host=10.106.240.74
+pc24 ansible_host=10.106.240.76
+pc25 ansible_host=10.106.240.82
+pc26 ansible_host=10.106.240.83
+pc27 ansible_host=10.106.240.85
+pc28 ansible_host=10.106.240.87
+pc29 ansible_host=10.106.240.92
+
+pc2 ansible_host=10.106.240.57
+pc3 ansible_host=10.106.240.58
+pc4 ansible_host=10.106.240.42
+pc5 ansible_host=10.106.240.32
+pc6 ansible_host=10.106.240.35

@@ -1,0 +1,12 @@
+[all]
+pc1 ansible_host=10.106.240.80
+pc2 ansible_host=10.106.240.69
+pc3 ansible_host=10.106.240.51
+pc4 ansible_host=10.106.240.60
+pc5 ansible_host=10.106.240.61
+pc6 ansible_host=10.106.240.83
+pc7 ansible_host=10.106.240.73
+pc8 ansible_host=10.106.240.82
+pc9 ansible_host=10.106.240.84
+pc10 ansible_host=10.106.240.78
+pc11 ansible_host=10.106.240.64
